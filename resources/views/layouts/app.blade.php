@@ -14,34 +14,39 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-[#f4f6f9] text-gray-900">
+   <body class="font-sans antialiased bg-[#f4f6f9] text-gray-900" 
+      x-data="{ sidebarOpen: true }">
     <div class="min-h-screen flex flex-col">
         
         @include('layouts.navigation')
 
+        <div class="flex flex-1 overflow-hidden">
+            <aside class="bg-[#0a0a0a] border-r border-red-900/20 
+                   transition-all duration-300 ease-in-out
+                   fixed top-15 left-0 h-full"
+           :class="sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'">
+        @include('layouts.sidebar')
+            </aside>
+
+            <main class="flex-1 overflow-y-auto transition-all duration-300"
+          :class="sidebarOpen ? 'ml-64' : 'ml-0'">
         @if (isset($header))
             <header class="bg-white border-b border-gray-200">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                        {{ $header }}
-                    </h2>
+                    {{ $header }}
                 </div>
             </header>
         @endif
 
-        <main class="flex-grow">
-            <div>
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    {{ $slot }}
-                </div>
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                {{ $slot }}
             </div>
-        </main>
+        </div>
+    </main>
 
-        <footer class="bg-white border-t border-gray-200 py-6 text-center text-gray-500 text-sm">
-            <div class="max-w-7xl mx-auto px-4">
-                <p>&copy; {{ date('Y') }} Million Mart Request Ticket System</p>
-            </div>
-        </footer>
+
+        </div>
     </div>
 </body>
 </html>
