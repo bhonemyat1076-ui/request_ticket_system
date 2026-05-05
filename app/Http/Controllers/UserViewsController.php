@@ -10,15 +10,24 @@ class UserViewsController extends Controller
 {
     public function showAllTickets()
     {
-        $tickets = Ticket::where('user_id', Auth::id())->get();
+        $tickets = Ticket::where('user_id', Auth::id())
+            ->latest()
+            ->get();
 
         $openTickets = $tickets->where('status', 'open')->take(3);
         $pendingTickets = $tickets->where('status', 'pending')->take(3);
-        $successTickets = $tickets->where('status', 'success')->take(3);
+
+        $recentSuccessTickets = Ticket::where('user_id', Auth::id())
+            ->where('status', 'success')
+            ->where('created_at', '>=', now()->subMonth())
+            ->latest()
+            ->get();
+
+        $successTickets = $recentSuccessTickets->take(3);
 
         $openCount = $tickets->where('status', 'open')->count();
         $pendingCount = $tickets->where('status', 'pending')->count();
-        $successCount = $tickets->where('status', 'success')->count();
+        $successCount = $recentSuccessTickets->count();
 
         return view('user.all-tickets', compact(
             'openTickets', 
@@ -52,19 +61,35 @@ class UserViewsController extends Controller
     {
         $tickets = Ticket::where('user_id', Auth::id())
             ->where('status', 'success')
+            ->where('created_at', '>=', now()->subMonth())
             ->latest()
             ->get();
+
         return view('user.success-tickets', compact('tickets'));
     }
 
     public function showTicketHistory()
     {
-        return view('user.tickets.history');
+        $historyTickets = Ticket::where('user_id', Auth::id())
+            ->where('status', 'success')
+            ->where('created_at', '<', now()->subMonth())
+            ->latest()
+            ->paginate(15);
+
+        return view('user.tickets.history', compact('historyTickets'));
     }
 
     public function showEditTicket($id)
     {
-        return view('user.tickets.edit', compact('id'));
+            $tickets = Ticket::where('user_id', Auth::id())->findOrFail($id);
+            return view('user.edit-tickets', compact('tickets'));
+    }
+
+    public function show($id)
+    {
+        $ticket = Ticket::where('user_id', Auth::id())->findOrFail($id);
+
+        return view('user.tickets.show', compact('ticket'));
     }
 }
     

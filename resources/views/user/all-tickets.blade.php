@@ -33,7 +33,7 @@
                             <p class="text-sm text-gray-600 mb-3">{{ Str::limit($ticket->description, 80) }}</p>
                             <div class="flex justify-between items-center">
                                 <span class="text-xs px-2 py-1 rounded bg-gray-100">{{ ucfirst($ticket->priority) }}</span>
-                                <a href="{{ route('user.edit-tickets.show', $ticket->id) }}" class="text-sm text-blue-600 hover:underline">View</a>
+                                <a href="{{ route('user.tickets.show', $ticket->id) }}" class="text-sm text-blue-600 hover:underline">View</a>
                             </div>
                         </div>
                     @endforeach
@@ -68,7 +68,7 @@
                             <p class="text-sm text-gray-600 mb-3">{{ Str::limit($ticket->description, 80) }}</p>
                             <div class="flex justify-between items-center">
                                 <span class="text-xs px-2 py-1 rounded bg-gray-100">{{ ucfirst($ticket->priority) }}</span>
-                                <a href="{{ route('user.edit-tickets.show', $ticket->id) }}" class="text-sm text-blue-600 hover:underline">View</a>
+                                <a href="{{ route('user.tickets.show', $ticket->id) }}" class="text-sm text-blue-600 hover:underline">View</a>
                             </div>
                         </div>
                     @endforeach
@@ -103,7 +103,7 @@
                             <p class="text-sm text-gray-600 mb-3">{{ Str::limit($ticket->description, 80) }}</p>
                             <div class="flex justify-between items-center">
                                 <span class="text-xs px-2 py-1 rounded bg-gray-100">{{ ucfirst($ticket->priority) }}</span>
-                                <a href="{{ route('user.edit-tickets.show', $ticket->id) }}" class="text-sm text-blue-600 hover:underline">View</a>
+                                <a href="{{ route('user.tickets.show', $ticket->id) }}" class="text-sm text-blue-600 hover:underline">View</a>
                             </div>
                         </div>
                     @endforeach

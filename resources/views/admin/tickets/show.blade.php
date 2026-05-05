@@ -44,7 +44,7 @@
                             <option value="open" {{ $ticket->status == 'open' ? 'selected' : '' }}>Open</option>
                             <option value="pending" {{ $ticket->status == 'pending' ? 'selected' : '' }}>Pending</option>
                             <option value="resolved" {{ $ticket->status == 'resolved' ? 'selected' : '' }}>Resolved</option>
-                            <option value="closed" {{ $ticket->status == 'success' ? 'selected' : '' }}>Closed</option>
+                            <option value="success" {{ $ticket->status == 'success' ? 'selected' : '' }}>Closed</option>
                         </select>
                         <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded transition shadow-lg shadow-red-900/20">
                             Update Status

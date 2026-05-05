@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Success Tickets') }}
+                {{ __('Success Tickets (Last 30 Days)') }}
             </h2>
             <a href="{{ route('user.all-tickets.show') }}" class="text-sm text-gray-600 hover:text-gray-900">
                 ← Back to All Tickets
@@ -29,7 +29,7 @@
                 @endforeach
             </div>
         @else
-            <p class="text-gray-500">No success tickets.</p>
+            <p class="text-gray-500">No success tickets in the last 30 days.</p>
         @endif
     </div>
 </x-app-layout>

@@ -2,14 +2,15 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\UserListController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\UserViewsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Middleware\AdminMiddleware;
-use App\Http\Controllers\TicketController;
-use App\Http\Controllers\UserViewsController;
 
 
 Route::get('/', function () {
@@ -31,6 +32,8 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\AdminMiddleware::cla
     Route::get('/admin/tickets/pending', [AdminDashboardController::class, 'pendingTickets'])->name('admin.tickets.pending');
     Route::get('/admin/tickets/success', [AdminDashboardController::class, 'successTickets'])->name('admin.tickets.success');
     Route::get('/admin/tickets/history', [AdminDashboardController::class, 'ticketHistory'])->name('admin.tickets.history');  
+    Route::get('/admin/users', [UserListController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/user-profile/{user}', [UserListController::class, 'showUser'])->name('admin.users.show');
     Route::get('/admin/tickets/{ticket}', [AdminDashboardController::class, 'show'])->name('admin.tickets.show');
     Route::patch('/admin/tickets/{ticket}/status', [AdminDashboardController::class, 'updateStatus'])->name('admin.tickets.updateStatus');
   
@@ -43,6 +46,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/open-tickets', [UserViewsController::class, 'showOpenTickets'])->name('user.open-tickets.show');
     Route::get('/user/pending-tickets', [UserViewsController::class, 'showPendingTickets'])->name('user.pending-tickets.show');
     Route::get('/user/success-tickets', [UserViewsController::class, 'showSuccessTickets'])->name('user.success-tickets.show');
+    Route::get('/user/tickets/history', [UserViewsController::class, 'showTicketHistory'])->name('user.tickets.history');
+    Route::get('/user/tickets/show-tickets/{id}', [UserViewsController::class, 'show'])->name('user.tickets.show');
     Route::get('/user/edit-tickets/{id}', [UserViewsController::class, 'showEditTicket'])->name('user.edit-tickets.show');
     Route::post('/user/update-tickets/{id}', [TicketController::class, 'updateTicket'])->name('user.update-tickets');
 

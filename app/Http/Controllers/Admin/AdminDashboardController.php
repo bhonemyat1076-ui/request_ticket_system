@@ -33,13 +33,14 @@ public function show(Ticket $ticket)
 
 public function updateStatus(Request $request, Ticket $ticket)
 {
-    $request->validate([
-        'status' => 'required|in:open,pending,resolved,closed',
+    $validated = $request->validate([
+        'status' => 'required|in:open,pending,success,closed,resolved',
     ]);
 
-    $ticket->update(['status' => $request->status]);
+    $status = $validated['status'] === 'closed' ? 'success' : $validated['status'];
+    $ticket->update(['status' => $status]);
 
-    return back()->with('status', 'Ticket status updated to ' . ucfirst($request->status));
+    return back()->with('status', 'Ticket status updated to ' . ucfirst($status));
 }
 
 public function openTickets()
@@ -47,8 +48,40 @@ public function openTickets()
     $tickets = Ticket::with('user')
         ->where('status', 'open')
         ->latest()
-        ->paginate(15); // Show more per page here than on the dashboard
+        ->paginate(15);
 
     return view('admin.tickets.open', compact('tickets'));
+}
+
+public function pendingTickets()
+{
+    $tickets = Ticket::with('user')
+        ->where('status', 'pending')
+        ->latest()
+        ->paginate(15);
+
+    return view('admin.tickets.pending', compact('tickets'));
+}
+
+public function successTickets()
+{
+    $tickets = Ticket::with('user')
+        ->where('status', 'success')
+        ->where('created_at', '>=', now()->subMonth())
+        ->latest()
+        ->paginate(15);
+
+    return view('admin.tickets.success', compact('tickets'));
+}
+
+public function ticketHistory()
+{
+    $historyTickets = Ticket::with('user')
+        ->where('status', 'success')
+        ->where('created_at', '<', now()->subMonth())
+        ->latest()
+        ->paginate(15);
+
+    return view('admin.tickets.history', compact('historyTickets'));
 }
 }
