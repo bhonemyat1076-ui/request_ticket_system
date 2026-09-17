@@ -125,8 +125,8 @@ This project includes a seeded admin account in the database seeder. You can upd
 
 Default values in the current project:
 
-- Email: `bhonemyat1076@gmail.com`
-- Password: `Apple@098`
+- Email: `admin@example.com`
+- Password: `password123`
 
 > Change these credentials before deploying to a live environment.
 
